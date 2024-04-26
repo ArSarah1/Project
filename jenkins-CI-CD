@@ -13,5 +13,18 @@ stage("GIT") {
                 sh 'mvn --version'
             }
         }
+stage('Coverage Test') {
+            steps {
+                script {
+                    sh 'mvn clean test -P test jacoco:report'
+                }
+            }
+        }
+stage('deploy Artifact') {
+    steps {
+        sh 'mvn deploy -DskipTests'
+
+    }
+}
    }     
 }
