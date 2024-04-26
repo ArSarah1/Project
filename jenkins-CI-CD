@@ -20,13 +20,14 @@ stage('Coverage Test') {
                 }
             }
         }
-stage('deploy Artifact') {
-    steps {
-        script {
-            def mvnOutput = sh(script: 'mvn deploy -DskipTests', returnStdout: true).trim()
-            echo "Maven output: ${mvnOutput}"
+stage("build & SonarQube Scanner") {
+          agent any
+          steps {
+            withSonarQubeEnv('SonarQube Scanner') {
+              sh 'mvn clean package sonar:sonar'
+            }
+          }
         }
-    }
 }
    }     
 }
