@@ -22,8 +22,10 @@ stage('Coverage Test') {
         }
 stage('deploy Artifact') {
     steps {
-        sh 'mvn deploy -DskipTests'
-
+        script {
+            def mvnOutput = sh(script: 'mvn deploy -DskipTests', returnStdout: true).trim()
+            echo "Maven output: ${mvnOutput}"
+        }
     }
 }
    }     
