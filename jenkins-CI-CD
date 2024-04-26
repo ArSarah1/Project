@@ -20,14 +20,13 @@ stage('Coverage Test') {
                 }
             }
         }
-stage("build & SonarQube Scanner") {
-          agent any
-          steps {
-            withSonarQubeEnv('SonarQube Scanner') {
-              sh 'mvn clean package sonar:sonar'
-            }
-          }
+stage('Build Docker Image') {
+    steps {
+        script {
+            docker.build("arsarah/alpine:1.0.0", "-f Dockerfile .")
         }
+    }
+}
 }
    }     
 
