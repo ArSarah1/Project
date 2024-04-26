@@ -1,11 +1,13 @@
 pipeline {
     agent { label 'agent1' }
     stages {
-        stage('Hello') {
-            steps {
-                echo 'Hello World From Jenkins File'
-            }
-        }
+stage("GIT") {
+    steps {
+        echo "Getting Project from Git"
+        git branch: "main",
+            url: "https://github.com/ArSarah1/Project.git"
+    }
+}
         stage('Maven') {
             steps {
                 sh 'mvn --version'
@@ -37,7 +39,7 @@ pipeline {
         success {
             emailext subject: 'Build Success Notification',
                       body: 'Your Jenkins build succeeded. Congratulations!',
-                      to: 'hachich.ayed2000@gmail.com'
+                      to: 'arouri.sarah@esprit.tn'
         }
     }
 }
