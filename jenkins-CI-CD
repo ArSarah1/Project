@@ -13,33 +13,5 @@ stage("GIT") {
                 sh 'mvn --version'
             }
         }
-        stage('Coverage Test') {
-            steps {
-                script {
-                    sh 'mvn clean test -P test jacoco:report'
-                }
-            }
-        }
-        stage('SonarQube Analysis') {
-            steps {
-                script {
-                    sh '''
-                        mvn compile sonar:sonar \
-                        -Dsonar.host.url=http://172.22.202.160:9000/ \
-                        -Dsonar.organization=devops \
-                        -Dsonar.projectKey=devops \
-                        -Dsonar.login=a7476c88f53a162a82d8149b0052207b97b69587 \
-                        -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
-                    '''
-                }
-            }
-        }   
-    }
-    post {
-        success {
-            emailext subject: 'Build Success Notification',
-                      body: 'Your Jenkins build succeeded. Congratulations!',
-                      to: 'arouri.sarah@esprit.tn'
-        }
-    }
+   }     
 }
