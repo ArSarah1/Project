@@ -45,10 +45,6 @@ stage(' Docker Image') {
         }
     }
 }
- 
-    
-    
-    stage {
         stage('Build and SonarQube Scan') {
             steps {
                 // Run the SonarQube analysis using the configured credentials and URL
@@ -61,7 +57,7 @@ stage(' Docker Image') {
                 }
             }
         }
-    }
+    
 
 stage('Docker Compose') {
     steps {
