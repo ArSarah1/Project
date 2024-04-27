@@ -20,14 +20,23 @@ stage("GIT CHECKOUT YOUR BRANCH") {
                 sh 'mvn --version'
             }
         }
-stage('Coverage Test') {
+stage('COVERAGE TEST') {
             steps {
                 script {
                     sh 'mvn clean test -P test jacoco:report'
                 }
             }
         }
-stage('SonarQube Analysis') {
+stage('BUILD & SCAN SONARQUBE') {
+            steps {
+                sh 'mvn sonar:sonar'
+            }
+            environment {
+                SONAR_TOKEN = '2336c0696dd9fadd41bf5632ff39fc46202915f6'
+                SONAR_HOST_URL = 'http://localhost:9000'
+            }
+        }
+stage('SONARQUBE ANLAYSIS') {
             steps {
                 script {
                     sh '''
@@ -35,12 +44,13 @@ stage('SonarQube Analysis') {
                         -Dsonar.host.url=http://localhost:9000/ \
                         -Dsonar.organization=Sonar \
                         -Dsonar.projectKey=Sonar \
-                        -Dsonar.login=squ_2336c0696dd9fadd41bf5632ff39fc46202915f6>                        
+                        -Dsonar.login=2336c0696dd9fadd41bf5632ff39fc46202915f6>                        
                         -Dsonar.coverage.jacoco.xmlReportPaths=target/site/> 
                         '''        
                 }
             }
         }
+
   
     stage('BUILD ARTIFACT') {
            steps {
@@ -64,7 +74,7 @@ stage(' BUILD DOCKER IMAGE') {
        
     
 
-stage('Docker Compose') {
+stage('DOCKER COMPOSE') {
     steps {
         script {
             // Execute Docker Compose commands
@@ -73,10 +83,18 @@ stage('Docker Compose') {
         }
     }
 }
-  }
+ post {
+        success {
+            emailext subject: 'Build Success Notification',
+                      body: 'Your Jenkins build succeeded. Congratulations!> 
+                      to: 'arouri.sarah@esprit.tn'
+              }
+           }
+        }
+     }
 
 
-  }
+  
 
 
 
