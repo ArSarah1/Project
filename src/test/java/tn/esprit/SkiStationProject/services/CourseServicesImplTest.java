@@ -18,7 +18,7 @@ import static org.mockito.Mockito.*;
 
 
 
-public class ICourseServicesTest {
+public class CourseServicesImplTest {
     @Mock
     private CourseRepository courseRepository;
 
