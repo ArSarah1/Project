@@ -86,7 +86,7 @@ stage('DOCKER COMPOSE') {
  post {
         success {
             emailext subject: 'Build Success Notification',
-                      body: 'Your Jenkins build succeeded. Congratulations!> 
+                      body: 'Your Jenkins build succeeded. Congratulations!' > 
                       to: 'arouri.sarah@esprit.tn'
               }
            }
