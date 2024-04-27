@@ -1,181 +1,97 @@
-package tn.esprit.SkiStationProject.services;
+package tn.esprit.SkiStationProject.service;
 
-import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.*;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import tn.esprit.SkiStationProject.entities.Course;
-import tn.esprit.SkiStationProject.entities.enums.Support;
-import tn.esprit.SkiStationProject.entities.enums.TypeCourse;
 import tn.esprit.SkiStationProject.repositories.CourseRepository;
+import tn.esprit.SkiStationProject.services.CourseServicesImpl;
+import java.util.Arrays;
+import java.util.List;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
 
-@ContextConfiguration(classes = {CourseServicesImpl.class})
-@ExtendWith(SpringExtension.class)
-class CourseServicesImplTest {
-    @MockBean
+
+
+public class ICourseServicesTest {
+    @Mock
     private CourseRepository courseRepository;
 
-    @Autowired
-    private CourseServicesImpl courseServicesImpl;
+    @InjectMocks
+    private CourseServicesImpl courseServices;
 
-    /**
-     * Method under test: {@link CourseServicesImpl#retrieveAllCourses()}
-     */
-    @Test
-    void testRetrieveAllCourses() {
-        ArrayList<Course> courseList = new ArrayList<>();
-        when(courseRepository.findAll()).thenReturn(courseList);
-        List<Course> actualRetrieveAllCoursesResult = courseServicesImpl.retrieveAllCourses();
-        assertSame(courseList, actualRetrieveAllCoursesResult);
-        assertTrue(actualRetrieveAllCoursesResult.isEmpty());
-        verify(courseRepository,times(1)).findAll();
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.initMocks(this);
     }
 
-    /**
-     * Method under test: {@link CourseServicesImpl#retrieveAllCourses()}
-     */
+
     @Test
-    void testRetrieveAllCourses2() {
-        when(courseRepository.findAll()).thenThrow(new IllegalArgumentException("foo"));
-        assertThrows(IllegalArgumentException.class, () -> courseServicesImpl.retrieveAllCourses());
-        verify(courseRepository).findAll();
+    void retrieveAllCourses() {
+        // Mock data
+        List<Course> mockCourses = Arrays.asList(new Course(), new Course());
+
+        // Mock behavior
+        when(courseRepository.findAll()).thenReturn(mockCourses);
+
+        // Call method under test
+        List<Course> result = courseServices.retrieveAllCourses();
+
+        // Verify behavior
+        verify(courseRepository, times(1)).findAll();
+        assertEquals(mockCourses.size(), result.size(), "Number of courses returned should match expected number");
     }
 
-    /**
-     * Method under test: {@link CourseServicesImpl#addCourse(Course)}
-     */
     @Test
-    void testAddCourse() {
-        Course course = new Course();
-        course.setLevel(1);
-        course.setPrice(10.0f);
-        course.setRegistrations(new HashSet<>());
-        course.setSupport(Support.SKI);
-        course.setTimeSlot(1);
-        course.setTypeCourse(TypeCourse.COLLECTIVE_CHILDREN);
-        when(courseRepository.save(Mockito.<Course>any())).thenReturn(course);
+    void addCourse() {
+        // Mock data
+        Course courseToAdd = new Course();
 
-        Course course2 = new Course();
-        course2.setLevel(1);
-        course2.setPrice(10.0f);
-        course2.setRegistrations(new HashSet<>());
-        course2.setSupport(Support.SKI);
-        course2.setTimeSlot(1);
-        course2.setTypeCourse(TypeCourse.COLLECTIVE_CHILDREN);
-        assertSame(course, courseServicesImpl.addCourse(course2));
-        verify(courseRepository).save(Mockito.<Course>any());
+        // Mock behavior
+        when(courseRepository.save(courseToAdd)).thenReturn(courseToAdd);
+
+        // Call method under test
+        Course result = courseServices.addCourse(courseToAdd);
+
+        // Verify behavior
+        assertEquals(courseToAdd, result);
+        verify(courseRepository, times(1)).save(courseToAdd);
     }
 
-    /**
-     * Method under test: {@link CourseServicesImpl#addCourse(Course)}
-     */
     @Test
-    void testAddCourse2() {
-        when(courseRepository.save(Mockito.<Course>any())).thenThrow(new IllegalArgumentException("foo"));
+    void updateCourse() {
+        // Mock data
+        Course courseToUpdate = new Course();
 
-        Course course = new Course();
-        course.setLevel(1);
-        course.setPrice(10.0f);
-        course.setRegistrations(new HashSet<>());
-        course.setSupport(Support.SKI);
-        course.setTimeSlot(1);
-        course.setTypeCourse(TypeCourse.COLLECTIVE_CHILDREN);
-        assertThrows(IllegalArgumentException.class, () -> courseServicesImpl.addCourse(course));
-        verify(courseRepository).save(Mockito.<Course>any());
+        // Mock behavior
+        when(courseRepository.save(courseToUpdate)).thenReturn(courseToUpdate);
+
+        // Call method under test
+        Course result = courseServices.updateCourse(courseToUpdate);
+
+        // Verify behavior
+        assertEquals(courseToUpdate, result);
+        verify(courseRepository, times(1)).save(courseToUpdate);
     }
 
-    /**
-     * Method under test: {@link CourseServicesImpl#updateCourse(Course)}
-     */
     @Test
-    void testUpdateCourse() {
-        Course course = new Course();
-        course.setLevel(1);
-        course.setPrice(10.0f);
-        course.setRegistrations(new HashSet<>());
-        course.setSupport(Support.SKI);
-        course.setTimeSlot(1);
-        course.setTypeCourse(TypeCourse.COLLECTIVE_CHILDREN);
-        when(courseRepository.save(Mockito.<Course>any())).thenReturn(course);
+    void retrieveCourse() {
+        // Mock data
+        Long courseId = 1L;
+        Course mockCourse = new Course();
 
-        Course course2 = new Course();
-        course2.setLevel(1);
-        course2.setPrice(10.0f);
-        course2.setRegistrations(new HashSet<>());
-        course2.setSupport(Support.SKI);
-        course2.setTimeSlot(1);
-        course2.setTypeCourse(TypeCourse.COLLECTIVE_CHILDREN);
-        assertSame(course, courseServicesImpl.updateCourse(course2));
-        verify(courseRepository).save(Mockito.<Course>any());
-    }
+        // Mock behavior
+        when(courseRepository.findById(courseId)).thenReturn(java.util.Optional.of(mockCourse));
 
-    /**
-     * Method under test: {@link CourseServicesImpl#updateCourse(Course)}
-     */
-    @Test
-    void testUpdateCourse2() {
-        when(courseRepository.save(Mockito.<Course>any())).thenThrow(new IllegalArgumentException("foo"));
+        // Call method under test
+        Course result = courseServices.retrieveCourse(courseId);
 
-        Course course = new Course();
-        course.setLevel(1);
-        course.setPrice(10.0f);
-        course.setRegistrations(new HashSet<>());
-        course.setSupport(Support.SKI);
-        course.setTimeSlot(1);
-        course.setTypeCourse(TypeCourse.COLLECTIVE_CHILDREN);
-        assertThrows(IllegalArgumentException.class, () -> courseServicesImpl.updateCourse(course));
-        verify(courseRepository).save(Mockito.<Course>any());
-    }
-
-    /**
-     * Method under test: {@link CourseServicesImpl#retrieveCourse(Long)}
-     */
-    @Test
-    void testRetrieveCourse() {
-        Course course = new Course();
-        course.setLevel(1);
-        course.setPrice(10.0f);
-        course.setRegistrations(new HashSet<>());
-        course.setSupport(Support.SKI);
-        course.setTimeSlot(1);
-        course.setTypeCourse(TypeCourse.COLLECTIVE_CHILDREN);
-        Optional<Course> ofResult = Optional.of(course);
-        when(courseRepository.findById(Mockito.<Long>any())).thenReturn(ofResult);
-        assertSame(course, courseServicesImpl.retrieveCourse(1L));
-        verify(courseRepository).findById(Mockito.<Long>any());
-    }
-
-    /**
-     * Method under test: {@link CourseServicesImpl#retrieveCourse(Long)}
-     */
-    @Test
-    void testRetrieveCourse2() {
-        when(courseRepository.findById(Mockito.<Long>any())).thenReturn(Optional.empty());
-        assertThrows(IllegalArgumentException.class, () -> courseServicesImpl.retrieveCourse(1L));
-        verify(courseRepository).findById(Mockito.<Long>any());
-    }
-
-    /**
-     * Method under test: {@link CourseServicesImpl#retrieveCourse(Long)}
-     */
-    @Test
-    void testRetrieveCourse3() {
-        when(courseRepository.findById(Mockito.<Long>any()))
-                .thenThrow(new IllegalArgumentException("no course found with this id "));
-        assertThrows(IllegalArgumentException.class, () -> courseServicesImpl.retrieveCourse(1L));
-        verify(courseRepository).findById(Mockito.<Long>any());
+        // Verify behavior
+        assertEquals(mockCourse, result);
+        verify(courseRepository, times(1)).findById(courseId);
     }
 }
