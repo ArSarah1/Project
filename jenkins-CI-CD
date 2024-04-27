@@ -43,8 +43,8 @@ stage('Docker Compose') {
     steps {
         script {
             // Execute Docker Compose commands
-            sh '/usr/local/bin/docker-compose pull'
-            sh '/usr/local/bin/docker-compose up -d'
+            sh '/home/sarah/Project/docker-compose pull'
+            sh '/home/sarah/Project/docker-compose up -d'
         }
     }
 }
