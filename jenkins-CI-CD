@@ -7,14 +7,14 @@ pipeline {
         SONAR_HOST_URL = 'http://localhost:9000'
     }
     stages {
-stage("GIT") {
+stage("GIT CHECKOUT YOUR BRANCH") {
     steps {
         echo "Getting Project from Git"
         git branch: "master",
             url: "https://github.com/ArSarah1/Project.git"
     }
 }
-        stage('Maven') {
+        stage('MAVEN') {
             steps {
                 sh 'mvn compile'
                 sh 'mvn --version'
@@ -28,12 +28,12 @@ stage('Coverage Test') {
             }
         }
   
-    stage('Build Artifact') {
+    stage('BUILD ARTIFACT') {
            steps {
                sh 'mvn package -DskipTests'
            }
        }
-stage(' Docker Image') {
+stage(' BUILD DOCKER IMAGE') {
     steps {
         script {
             // Build the Docker image
@@ -45,18 +45,22 @@ stage(' Docker Image') {
         }
     }
 }
-        stage('Build and SonarQube Scan') {
+ stage('SonarQube Analysis') {
             steps {
-                // Run the SonarQube analysis using the configured credentials and URL
                 script {
-                    // Use the SonarScanner CLI tool to execute the analysis
-                    def scannerHome = tool 'Sonar'
-                    withEnv(["PATH+SCANNER=${scannerHome}/bin"]) {
-                        sh 'mvn clean package sonar:sonar'
-                    }
+                    sh '''
+                         mvn compile sonar:sonar \
+                        -Dsonar.host.url=http://localhost:9000/ \
+                        -Dsonar.organization=Sonar \
+                        -Dsonar.projectKey=Sonar \
+                        -Dsonar.login=a7476c88f53a162a82d8149b0052207b97b69>                        
+                        -Dsonar.coverage.jacoco.xmlReportPaths=target/site/> 
+                        '''        
                 }
             }
         }
+    }
+       
     
 
 stage('Docker Compose') {
