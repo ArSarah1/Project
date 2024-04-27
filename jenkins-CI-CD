@@ -59,7 +59,7 @@ stage(' BUILD DOCKER IMAGE') {
                 }
             }
         }
-    }
+  
        
     
 
@@ -72,10 +72,10 @@ stage('Docker Compose') {
         }
     }
 }
-
+  }
 
 
   }
-}
+
 
 
