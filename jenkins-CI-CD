@@ -32,6 +32,14 @@ stage('SonarQube') {
                sh 'mvn package -DskipTests'
            }
        }
+
+stage('COVERAGE TEST') {
+            steps {
+                script {
+                    sh 'mvn clean test -P test jacoco:report'
+                }
+            }
+        }
 stage(' BUILD DOCKER IMAGE') {
     steps {
         script {
