@@ -26,19 +26,16 @@ stage('COVERAGE TEST') {
 stage('SONARQUBE ANLAYSIS') {
             steps {
                 script {
-                    sh '
-                         mvn compile sonar:sonar 
+                    sh 'mvn compile sonar:sonar 
                         -Dsonar.host.url=https://sonarcloud.io/ 
                         -Dsonar.organization=sarah 
                         -Dsonar.projectKey=sarah_project 
                         -Dsonar.login=c6de14592f1e2d37a87f488d8e4a4f2b0c0a0cc6                       
-                       -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
-                        '      
+                       -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml'      
                 }
             }
         }
 
-    
   
     stage('BUILD ARTIFACT') {
            steps {
