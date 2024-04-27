@@ -49,7 +49,7 @@ stage(' BUILD DOCKER IMAGE') {
     }
 } 
 
-stage('Docker Compose') {
+stage('DOCKER COMPOSE') {
             steps {
                 script {
                     sh 'docker-compose up --build -d'
