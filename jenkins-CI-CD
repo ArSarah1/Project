@@ -26,21 +26,20 @@ stage('Coverage Test') {
                sh 'mvn package -DskipTests'
            }
        }
- stage('Build Docker Image') {
-       steps {
-           script {
-               // Build the Docker image
-               sh 'docker build -t app-container .'
-               // Log in to the Docker registry
-               sh 'docker login -u admin -p mypassword http://localhost:8082'
-               // Tag the Docker image
-               sh 'docker tag app-container:latest localhost:8082/repository/application-image/app-container:latest'
-               // Push the Docker image to the registry
-               sh 'docker push localhost:8082/repository/application-image/app-container:latest'
-           }
-       }
-   }
-      
+stage('Build and Push Docker Image') {
+    steps {
+        script {
+            // Build the Docker image
+            sh 'docker build -t arsarah/alpine1.0.0:latest .'
+            // Log in to Docker Hub (if necessary)
+            sh 'docker login -u yourusername -p yourpassword'
+            // Push the Docker image to Docker Hub
+            sh 'docker push arsarah/alpine1.0.0:latest'
+        }
+    }
 }
-   }     
+ 
+  }
+}
+
 
