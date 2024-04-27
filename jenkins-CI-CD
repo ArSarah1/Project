@@ -38,10 +38,7 @@ stage(' Docker Image') {
         }
     }
 }
-pipeline {
-    agent any
-    
-    stages {
+ 
         stage('Build and SonarQube Scan') {
             environment {
                 SONAR_TOKEN = credentials('sonar')
@@ -53,8 +50,7 @@ pipeline {
                 }
             }
         }
-    }
-}
+
 
 stage('Docker Compose') {
     steps {
