@@ -38,18 +38,18 @@ stage(' Docker Image') {
         }
     }
 }
- stage('  Docker Compose') {
-            steps {
-                script {
-                    // Changez de répertoire vers celui contenant docker-compose.yml
-                    dir('/home/sarah/Project') {
-                        // Exécutez les commandes Docker Compose
-                        sh 'docker-compose pull'
-                        sh 'docker-compose up -d'
-                    }
-                }
+stage('Docker Compose') {
+    steps {
+        script {
+            // Change directory to where your docker-compose.yml is located
+            dir('/home/sarah/Project') {
+                // Execute Docker Compose commands
+                sh 'docker-compose pull'
+                sh 'docker-compose up -d'
             }
         }
+    }
+}
  
   }
 }
