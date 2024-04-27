@@ -82,6 +82,7 @@ stage('DOCKER COMPOSE') {
             sh '/home/sarah/Project/docker-compose up -d'
         }
     }
+  }
 }
  post {
         success {
@@ -91,7 +92,7 @@ stage('DOCKER COMPOSE') {
               }
            }
         }
-     }
+     
 
 
   
