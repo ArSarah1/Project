@@ -33,10 +33,30 @@ stage('SonarQube') {
            }
        }
 
-
-
-
-
+tage(' BUILD DOCKER IMAGE') {
+    steps {
+        script {
+            sh 'docker build -t arsarah/alpine1.0.0:latest .' 
+            sh 'docker login -u arsarah -p 000000000' 
+            sh 'docker push arsarah/alpine1.0.0:latest'
+        }
+    }
+}
+ 
+stage('Docker Compose') {
+            steps {
+                script {
+                    sh 'docker-compose up --build -d'
+                }
+            }
+        }
+stage('COVERAGE TEST') {
+            steps {
+                script {
+                    sh 'mvn clean test -P test jacoco:report'
+                }
+            }
+        }
 
 }
  post {
