@@ -42,7 +42,7 @@ stage(' Docker Image') {
             steps {
                 script {
                     // Changez de répertoire vers celui contenant docker-compose.yml
-                    dir('//home/sarah/Project') {
+                    dir('/home/sarah/Project') {
                         // Exécutez les commandes Docker Compose
                         sh 'docker-compose pull'
                         sh 'docker-compose up -d'
