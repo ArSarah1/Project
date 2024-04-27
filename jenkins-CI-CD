@@ -1,5 +1,11 @@
 pipeline {
     agent { label 'agent1' }
+   environment {
+        // Specify the SonarQube access token using Jenkins credentials
+        SONAR_TOKEN = credentials('sonar')
+        // Specify the URL of your SonarQube server
+        SONAR_HOST_URL = 'http://localhost:9000'
+    }
     stages {
 stage("GIT") {
     steps {
@@ -40,14 +46,9 @@ stage(' Docker Image') {
     }
 }
  
-       environment {
-        // Specify the SonarQube access token using Jenkins credentials
-        SONAR_TOKEN = credentials('sonar')
-        // Specify the URL of your SonarQube server
-        SONAR_HOST_URL = 'http://localhost:9000'
-    }
     
-    stages {
+    
+    stage {
         stage('Build and SonarQube Scan') {
             steps {
                 // Run the SonarQube analysis using the configured credentials and URL
