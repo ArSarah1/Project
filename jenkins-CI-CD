@@ -53,7 +53,7 @@ stage(' BUILD DOCKER IMAGE') {
                         -Dsonar.host.url=http://localhost:9000/ \
                         -Dsonar.organization=Sonar \
                         -Dsonar.projectKey=Sonar \
-                        -Dsonar.login=a7476c88f53a162a82d8149b0052207b97b69>                        
+                        -Dsonar.login=squ_2336c0696dd9fadd41bf5632ff39fc46202915f6>                        
                         -Dsonar.coverage.jacoco.xmlReportPaths=target/site/> 
                         '''        
                 }
