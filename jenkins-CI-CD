@@ -32,7 +32,7 @@ stage('Build and Push Docker Image') {
             // Build the Docker image
             sh 'docker build -t arsarah/alpine1.0.0:latest .'
             // Log in to Docker Hub (if necessary)
-            sh 'docker login -u yourusername -p yourpassword'
+            sh 'docker login -u arsarah -p 000000000'
             // Push the Docker image to Docker Hub
             sh 'docker push arsarah/alpine1.0.0:latest'
         }
