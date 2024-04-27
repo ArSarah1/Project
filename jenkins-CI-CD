@@ -42,7 +42,7 @@ stage('SONARQUBE ANLAYSIS') {
                 }
             }
         }
-
+    
   
     stage('BUILD ARTIFACT') {
            steps {
