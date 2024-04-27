@@ -38,19 +38,18 @@ stage(' Docker Image') {
         }
     }
 }
+
 stage('Docker Compose') {
     steps {
         script {
-            // Change directory to where your docker-compose.yml is located
-            dir('/home/sarah/Project') {
-                // Execute Docker Compose commands
-                sh 'docker-compose pull'
-                sh 'docker-compose up -d'
-            }
+            // Execute Docker Compose commands
+            sh '/usr/local/bin/docker-compose pull'
+            sh '/usr/local/bin/docker-compose up -d'
         }
     }
 }
- 
+
+
   }
 }
 
