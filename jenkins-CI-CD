@@ -35,22 +35,7 @@ stage('SonarQube') {
 
 
 
-stage('DOCKER IMAGE ') {
-        steps {
-            script {
-                // Build the Docker image
-                sh 'docker build -t app-container .'
-            }
-        }
-    }
 
-stage('DOCKER COMPOSE') {
-            steps {
-                script {
-                    sh 'docker-compose up --build -d'
-                }
-            }
-        }
 
 
 }
