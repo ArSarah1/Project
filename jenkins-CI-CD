@@ -10,6 +10,7 @@ stage("GIT") {
 }
         stage('Maven') {
             steps {
+                sh 'mvn compile'
                 sh 'mvn --version'
             }
         }
@@ -39,18 +40,27 @@ stage(' Docker Image') {
     }
 }
  
+       environment {
+        // Specify the SonarQube access token using Jenkins credentials
+        SONAR_TOKEN = credentials('sonar')
+        // Specify the URL of your SonarQube server
+        SONAR_HOST_URL = 'http://localhost:9000'
+    }
+    
+    stages {
         stage('Build and SonarQube Scan') {
-            environment {
-                SONAR_TOKEN = credentials('sonar')
-                SONAR_HOST_URL = 'http://localhost:9000'
-            }
             steps {
-                withSonarQubeEnv('sonar') {
-                    sh 'mvn clean package sonar:sonar'
+                // Run the SonarQube analysis using the configured credentials and URL
+                script {
+                    // Use the SonarScanner CLI tool to execute the analysis
+                    def scannerHome = tool 'Sonar'
+                    withEnv(["PATH+SCANNER=${scannerHome}/bin"]) {
+                        sh 'mvn clean package sonar:sonar'
+                    }
                 }
             }
         }
-
+    }
 
 stage('Docker Compose') {
     steps {
