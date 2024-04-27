@@ -38,6 +38,23 @@ stage(' Docker Image') {
         }
     }
 }
+pipeline {
+    agent any
+    
+    stages {
+        stage('Build and SonarQube Scan') {
+            environment {
+                SONAR_TOKEN = credentials('sonar')
+                SONAR_HOST_URL = 'http://localhost:9000'
+            }
+            steps {
+                withSonarQubeEnv('sonar') {
+                    sh 'mvn clean package sonar:sonar'
+                }
+            }
+        }
+    }
+}
 
 stage('Docker Compose') {
     steps {
