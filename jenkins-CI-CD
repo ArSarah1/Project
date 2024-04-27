@@ -38,7 +38,7 @@ stage(' Docker Image') {
         }
     }
 }
- stage('Deploy with Docker Compose') {
+ stage('  Docker Compose') {
             steps {
                 script {
                     // Changez de répertoire vers celui contenant docker-compose.yml
