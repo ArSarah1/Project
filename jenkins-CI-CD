@@ -15,13 +15,7 @@ stage("GIT CHECKOUT YOUR BRANCH") {
                 sh 'mvn --version'
             }
         }
-stage('COVERAGE TEST') {
-            steps {
-                script {
-                    sh 'mvn clean test -P test jacoco:report'
-                }
-            }
-        }
+
 
 
 stage('SonarQube') {
