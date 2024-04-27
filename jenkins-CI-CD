@@ -26,7 +26,7 @@ stage('Coverage Test') {
                sh 'mvn package -DskipTests'
            }
        }
-stage('Build and Push Docker Image') {
+stage(' Docker Image') {
     steps {
         script {
             // Build the Docker image
