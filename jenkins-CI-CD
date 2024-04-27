@@ -1,11 +1,6 @@
 pipeline {
     agent { label 'agent1' }
-   environment {
-        // Specify the SonarQube access token using Jenkins credentials
-        SONAR_TOKEN = credentials('sonar')
-        // Specify the URL of your SonarQube server
-        SONAR_HOST_URL = 'http://localhost:9000'
-    }
+    
     stages {
 stage("GIT CHECKOUT YOUR BRANCH") {
     steps {
@@ -60,12 +55,7 @@ stage(' BUILD DOCKER IMAGE') {
             sh 'docker push arsarah/alpine1.0.0:latest'
         }
     }
-}
- 
-  
-       
-    
-
+} 
 stage('DOCKER COMPOSE') {
     steps {
         script {
