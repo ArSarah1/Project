@@ -27,6 +27,20 @@ stage('Coverage Test') {
                 }
             }
         }
+stage('SonarQube Analysis') {
+            steps {
+                script {
+                    sh '''
+                         mvn compile sonar:sonar \
+                        -Dsonar.host.url=http://localhost:9000/ \
+                        -Dsonar.organization=Sonar \
+                        -Dsonar.projectKey=Sonar \
+                        -Dsonar.login=squ_2336c0696dd9fadd41bf5632ff39fc46202915f6>                        
+                        -Dsonar.coverage.jacoco.xmlReportPaths=target/site/> 
+                        '''        
+                }
+            }
+        }
   
     stage('BUILD ARTIFACT') {
            steps {
@@ -45,20 +59,7 @@ stage(' BUILD DOCKER IMAGE') {
         }
     }
 }
- stage('SonarQube Analysis') {
-            steps {
-                script {
-                    sh '''
-                         mvn compile sonar:sonar \
-                        -Dsonar.host.url=http://localhost:9000/ \
-                        -Dsonar.organization=Sonar \
-                        -Dsonar.projectKey=Sonar \
-                        -Dsonar.login=squ_2336c0696dd9fadd41bf5632ff39fc46202915f6>                        
-                        -Dsonar.coverage.jacoco.xmlReportPaths=target/site/> 
-                        '''        
-                }
-            }
-        }
+ 
   
        
     
